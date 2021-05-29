@@ -1,0 +1,59 @@
+git config --global user.name "Max Alberto Cuao"
+git config --global user.email "malbertocuao@gmail.com"
+git config -l
+
+Para regresar a un commit anterior (OJO BORRA TODO LO DE DESPUES DEL reset)
+git reset --hard/--soft 73683ed886384b720f463bc4c2e2d9be05e828d2
+
+git log --stat
+git checkout ba1ea6bf95235142581e51dd7a0a23af1cbf82df historia.txt
+git checkout master historia.txt
+
+-- CONECTAR VIA HTTPS
+git remote add origin https://www.ideasit.net/git/max/Learning_GIT.git
+git pull origin master --allow-unrelated-histories
+git pull origin master
+git push origin master 
+git remote -v
+
+-- CONECTAR VIA SSH
+ssh-keygen -t rsa -b 4096 -C "malbertocuao@gmail.com"
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+git remote set-url origin root@www.ideasit.net:max/Learning_GIT.git
+
+-- LOG DETALLADO / Crear alias de comandos
+git log --all --graph --decorate --oneline
+alias log-tree="git log --all --graph --decorate --oneline"
+
+-- ADICIONAR TAGS
+# El numero sale del commit, se ve en la lista generada por log-tree
+git tag -a v0.1 -m "Version inicial del Blog" 57d64de 
+
+# Enviar el tag al server
+git push origin --tags
+
+# Borra el tag en el repo local
+git tag -d v0.1
+
+# Borra el tag del server (NO SE BORRA con el push --tags)
+git push origin :refs/tags/v0.1
+
+-- BRANCH REMOTAS
+
+# Mostrar branchs con detalles
+git show-branch --all
+
+
+# Mostrar branch en Linux shell
+
+1. edit ~/.bashrc
+
+2. Paste this to the end of the file
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1="\u@\h \[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+
+3. source ~/.bashrc
